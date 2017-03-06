@@ -8,4 +8,4 @@ Below is a list of current methods we've implemented thus far:
 
 * <b>"Animate"</b>
 - Get a random animated gif from the internet based off of a query.
-- <u><i>animate <user's choice of query words></i></u>
+- <u><i>animate &lt;user's choice of query words&gt;</i></u>
