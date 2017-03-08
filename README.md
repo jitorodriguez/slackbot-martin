@@ -15,4 +15,4 @@ Below is a list of current methods we've implemented thus far:
 ## <b>"Animate"</b>
 - Get a random animated gif from the internet based off of a query.
 - <i>ricky animate &lt;user's choice of query words&gt;</i>
-- API powered by: ![](https://media.giphy.com/media/3o6gbbuLW76jkt8vIc/giphy.gif width="100")
+- API powered by: <img src="https://media.giphy.com/media/3o6gbbuLW76jkt8vIc/giphy.gif" width="100">
