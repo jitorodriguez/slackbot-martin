@@ -16,8 +16,8 @@ module.exports = (robot) ->
    robot.hear /mama de jorge says/i, (res) ->
      res.send "Pipo?"
 #  Finds random animated gif based off of entered words.
-   robot.hear /(animate)? (.*)/i, (msg) ->
-     imagery = msg.match[2]
+   robot.hear /ricky animate (.*)/i, (msg) ->
+     imagery = msg.match[1]
      msg.http('http://api.giphy.com/v1/gifs/search')
      .query(api_key: "dc6zaTOxFJmzC", q: imagery)
      .get() (err, res, body) ->

@@ -2,7 +2,7 @@
   "name": "slackbot-martin",
   "version": "0.0.0",
   "private": true,
-  "author": "jito.rodriguez@outlook.com",
+  "author": "jito.rodriguez@outlook.com & contact@williamradfunk.com",
   "description": "Simple slackbot work for a better future",
   "dependencies": {
     "hubot": "^2.19.0",
