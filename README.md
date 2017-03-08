@@ -15,3 +15,4 @@ Below is a list of current methods we've implemented thus far:
 ## <b>"Animate"</b>
 - Get a random animated gif from the internet based off of a query.
 - <i>ricky animate &lt;user's choice of query words&gt;</i>
+- API powered by: ![Giphy Logo](https://giphy.com/static/img/animations/logo_laser.svg) Format: ![Alt Text](url)
