@@ -9,12 +9,14 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
+#  Ricky lets us know when he wakes up.
+   ROOM = 'project-martin'
+   MESSAGE = 'I\'m Alive!'
 
-   robot.hear /badger/i, (res) ->
-     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
-#  Teases Jorge by calling him by his nickname.
-   robot.hear /mama de jorge says/i, (res) ->
-     res.send "Pipo?"
+   roomOrPerson = { "room": /^#(.*)/ }
+   isRoom =  ROOM.match roomOrPerson.room
+   if isRoom then return robot.messageRoom isRoom[1], MESSAGE
+   robot.messageRoom ROOM, MESSAGE
 #  Finds random animated gif based off of entered words.
    robot.hear /ricky animate (.*)/i, (msg) ->
      imagery = msg.match[1]
@@ -25,26 +27,7 @@ module.exports = (robot) ->
        ran_key = images.data[Math.floor(Math.random() * images.data.length)]
        image = ran_key.images.fixed_height.url
        msg.send image
-  
-   robot.respond /open the (.*) doors/i, (res) ->
-     doorType = res.match[1]
-     if doorType is "pod bay"
-       res.reply "I'm afraid I can't let you do that."
-     else
-       res.reply "Opening #{doorType} doors"
-  
-   robot.hear /I like pie/i, (res) ->
-     res.emote "makes a freshly baked pie"
-  
-   lulz = ['lol', 'rofl', 'lmao']
-  
-   robot.respond /lulz/i, (res) ->
-     res.send res.random lulz
-  
-   robot.topic (res) ->
-     res.send "#{res.message.text}? That's a Paddlin'"
-  
-  
+#  Chooses random response from array when robot enters and/or leaves a chat room.
    enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
    leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
   
@@ -52,41 +35,7 @@ module.exports = (robot) ->
      res.send res.random enterReplies
    robot.leave (res) ->
      res.send res.random leaveReplies
-  
-   answer = process.env.HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING
-  
-   robot.respond /what is the answer to the ultimate question of life/, (res) ->
-     unless answer?
-       res.send "Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in environment: please set and try again"
-       return
-     res.send "#{answer}, but what is the question?"
-  
-   robot.respond /you are a little slow/, (res) ->
-     setTimeout () ->
-       res.send "Who you calling 'slow'?"
-     , 60 * 1000
-  
-   annoyIntervalId = null
-  
-   robot.respond /annoy me/, (res) ->
-     if annoyIntervalId
-       res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
-       return
-  
-     res.send "Hey, want to hear the most annoying sound in the world?"
-     annoyIntervalId = setInterval () ->
-       res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
-     , 1000
-  
-   robot.respond /unannoy me/, (res) ->
-     if annoyIntervalId
-       res.send "GUYS, GUYS, GUYS!"
-       clearInterval(annoyIntervalId)
-       annoyIntervalId = null
-     else
-       res.send "Not annoying you right now, am I?"
-  
-  
+#  Room specific commands kept for reference. 
    robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
      room   = req.params.room
      data   = JSON.parse req.body.payload
@@ -95,25 +44,25 @@ module.exports = (robot) ->
      robot.messageRoom room, "I have a secret: #{secret}"
   
      res.send 'OK'
-  
+#  Error catching and logging.
    robot.error (err, res) ->
      robot.logger.error "DOES NOT COMPUTE"
   
      if res?
        res.reply "DOES NOT COMPUTE"
-  
+#  Function to give robot a soda for being a good boy.
    robot.respond /have a soda/i, (res) ->
      # Get number of sodas had (coerced to a number).
      sodasHad = robot.brain.get('totalSodas') * 1 or 0
   
-     if sodasHad > 4
+     if sodasHad > 3
        res.reply "I'm too fizzy.."
   
      else
        res.reply 'Sure!'
   
        robot.brain.set 'totalSodas', sodasHad+1
-  
+#  Function to reset robot's soda count.
    robot.respond /sleep it off/i, (res) ->
      robot.brain.set 'totalSodas', 0
      res.reply 'zzzzz'
